@@ -40,9 +40,6 @@ io.listen(server);
 var listener = io.listen(server);
 listener.sockets.on('connection', function(socket){
   console.log("client connected at: ", new Date());
-  setInterval(function(){
-     socket.emit('date', {'date': new Date()});
-   }, 1000);
 
    //recieve client data
   socket.on('client_data', function(data){
@@ -61,16 +58,19 @@ function control(socket, cmd){
   switch(cmd.direction){
     case 'f':
       console.log("forward "+ cmd.speed);
-      drawVector(socket, 45, 100);
+      sendVector(socket, 270, 200);
       break;
     case 'b':
       console.log("backward "+ cmd.speed);
+      sendVector(socket, 90, 200);
       break;
     case 'r':
       console.log("right "+ cmd.speed);
+      sendVector(socket, 0, 200);
       break;
     case 'l':
       console.log("left "+ cmd.speed);
+      sendVector(socket, 180, 200);
       break;
     case 'stop':
       console.log("stop "+ cmd.speed);
@@ -78,6 +78,6 @@ function control(socket, cmd){
   }
 }
 
-function drawVector(socket, angle, length){
-  socket.emit('v', {'a': angle, 'd': length});
+function sendVector(socket, angle, radius){
+  socket.emit('v', {'a': angle, 'r': radius});
 }
