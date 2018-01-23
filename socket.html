@@ -1,0 +1,134 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    <style>
+      canvas{
+        border: solid 1px #ddd;
+        float: right;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var socket = io.connect();
+
+      // Server Time
+      socket.on('date', function(data){
+        $('#date').text(data.date);
+      });
+
+      // Plot Environment
+      socket.on('v', function(data){
+        console.log("vector received ", data);
+      });
+
+      // Control Panel
+      //
+      $(document).ready(function(){
+        $('#text').keypress(function(e){
+          //socket.emit('client_data', {'letter': String.fromCharCode(e.charCode)});
+          drawVector(parseFloat($('#text').val()), 200);
+        });
+
+        $('#ctrl_f').click(function(e){
+          socket.emit('ctrl',
+            {'direction': "f", "time": "1", "speed": "100"}
+          );
+        });
+
+        $('#ctrl_b').click(function(e){
+          socket.emit('ctrl',
+            {'direction': "b", "time": "1", "speed": "100"}
+          );
+        });
+
+        $('#ctrl_r').click(function(e){
+          socket.emit('ctrl',
+            {'direction': "r", "time": "1", "speed": "100"}
+          );
+        });
+
+        $('#ctrl_l').click(function(e){
+          socket.emit('ctrl',
+            {'direction': "l", "time": "1", "speed": "100"}
+          );
+        });
+
+        $('#ctrl_stop').click(function(e){
+          socket.emit('ctrl',
+            {'direction': "stop", "time": "1", "speed": "0"}
+          );
+        });
+      });
+
+    </script>
+    <div>Server Time </div>
+    <div id="date"></div>
+    <textarea id="text"></textarea>
+    <table>
+      <tr>
+        <td></td>
+        <td><input id="ctrl_f" type="button" value="&#x25B2;"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><input id="ctrl_l" type="button" value="&#x25C0;"></td>
+        <td></td>
+        <td><input id="ctrl_r" type="button" value="&#x25BA;"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input id="ctrl_b" type="button" value="&#x25BC;"></td>
+        <td></td>
+      </tr>
+    </table>
+    <!-- <input id="ctrl_go" type="button">Go</input> -->
+    <input id="ctrl_stop" type="button" value="Stop"/>
+    <canvas width="800px" height="400px"></canvas>
+
+    <script type="text/javascript">
+      // setup canvas
+      var cx = document.querySelector("canvas").getContext("2d");
+
+      // radius
+      var r = 100;
+
+      cx.beginPath();
+
+      // start at 0º angle. go till angle 360º. 45º steps.
+      for (var a = 0; a <= 360; a += 45) {
+        // move to center of canvas
+        cx.moveTo(400, 200);
+
+        // calculate angle in radians
+        var theta = (a * Math.PI / 180);
+
+        // calculate the endpoint from the angle and radius
+        cx.lineTo(400 + r * Math.cos(theta), 200 + r * Math.sin(theta));
+      }
+      cx.stroke();
+
+      function drawVector(angle, radius){
+        console.log("draw @" + angle + "º " + radius);
+        var cx = document.querySelector("canvas").getContext("2d");
+        cx.beginPath();
+        var center = {x:400, y:200};
+
+        // move to center of canvas
+        cx.moveTo(center.x, center.y);
+
+        // calculate angle in radians
+        var theta = (angle * Math.PI / 180);
+
+        // calculate the endpoint from the angle and radius
+        cx.lineTo(center.x + radius * Math.cos(theta), center.y + radius * Math.sin(theta));
+        cx.stroke();
+      }
+
+    </script>
+  </body>
+</html>
