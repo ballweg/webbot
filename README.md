@@ -27,4 +27,6 @@ I'm trying to do this all with JS. Which means node and npm should be installed 
 
 ## Further Reading/My References
 
-- 
+- [Node.js Tutorial with Socket.io - Daniel Nill](http://danielnill.com/nodejs-tutorial-with-socketio)
+- [Drawing on Canvas - Eloquent Javascript](https://eloquentjavascript.net/16_canvas.html)
+
