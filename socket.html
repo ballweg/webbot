@@ -4,7 +4,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
     <style>
       canvas{
-        border: solid 1px #ddd;
         float: right;
         position: absolute;
         top: 0;
@@ -16,6 +15,12 @@
         color: #eee;
         font-size: 1em;
         padding: 1em;
+        border-radius: 5px;
+        width: 100px;
+      }
+      input[type=button]:active{
+        background: #111;
+        color: #44ffff;
       }
     </style>
   </head>
@@ -101,10 +106,34 @@
       var size = { width:1000, height:800};
       var cx = document.querySelector("canvas").getContext("2d");
 
+      // draw centerpoint
+      drawCenter({x:500, y:400}, "#44ffff");
+
       function fadeOut() {
-        cx.fillStyle = "rgba(255,255,255,0.03)";
+        cx.fillStyle = "rgba(0,0,0,0.03)";
         cx.fillRect(0, 0, size.width, size.height);
         setTimeout(fadeOut,200);
+        drawCenter({x:500, y:400}, "#447777");
+      }
+
+      function drawPoint(origin, point, color){
+        cx.beginPath();
+        cx.lineWidth = 2;
+        cx.strokeStyle=color;
+        cx.lineCap = 'round';
+        cx.moveTo(point.x, point.y);
+        cx.lineTo(point.x+1, point.y-1);
+        cx.moveTo(origin.x, origin.y);
+        cx.stroke();
+        fadeOut();
+      }
+
+      function drawCenter(origin, color){
+        cx.beginPath();
+        cx.fillStyle = color;
+        cx.arc(origin.x, origin.y, 20, 0, Math.PI * 2, true);
+        cx.fill();
+        cx.closePath();
       }
 
       function drawVector(angle, r, origin){
@@ -116,13 +145,22 @@
         // move to center of canvas
         cx.moveTo(origin.x, origin.y);
 
-        // calculate angle in radians
+        // find endpoint based on angle and radius
         var theta = (parseFloat(angle) * Math.PI / 180);
+        var vEnd = {
+          'x': origin.x + radius * Math.cos(theta),
+          'y': origin.y + radius * Math.sin(theta)
+        };
 
-        // calculate the endpoint from the angle and radius
-        cx.lineTo(origin.x + radius * Math.cos(theta), origin.y + radius * Math.sin(theta));
+        // draw vector stroke
+        cx.strokeStyle="#777777";
+        cx.lineWidth = 1;
+        cx.lineTo(vEnd.x, vEnd.y);
         cx.stroke();
-        fadeOut();
+        cx.closePath();
+
+        // draw vector endpoint
+        drawPoint(origin, vEnd, "#44ffff");
       }
 
     </script>
