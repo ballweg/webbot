@@ -94,11 +94,11 @@
     <input id="ctrl_stop" type="button" value="Stop"/>
     <input id="connect" type="button" value="Connect"/>
     <div id="message"></div>
-    <canvas width="800px" height="400px"></canvas>
+    <canvas width="1000px" height="800px"></canvas>
 
     <script type="text/javascript">
       // setup canvas
-      var size = { width:800, height:400 };
+      var size = { width:1000, height:800};
       var cx = document.querySelector("canvas").getContext("2d");
 
       function fadeOut() {
@@ -109,7 +109,7 @@
 
       function drawVector(angle, r, origin){
         //console.log("Angle: " + angle + " - Distance: " + radius);
-        var radius = r/10; // temporary to get range
+        var radius = r/4; // temporary to get range
         var cx = document.querySelector("canvas").getContext("2d");
         cx.beginPath();
 
