@@ -1,0 +1,32 @@
+{
+  "name": "webbot",
+  "version": "1.0.0",
+  "description": "interfacing with a robot and serial lidar from node",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "neato-lidar": "^0.2.1",
+    "serialport": "^6.0.4",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ballweg/webbot.git"
+  },
+  "keywords": [
+    "nodebot",
+    "robot",
+    "lidar"
+  ],
+  "author": "Jeff Ballweg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ballweg/webbot/issues"
+  },
+  "homepage": "https://github.com/ballweg/webbot#readme"
+}
